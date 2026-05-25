@@ -38,9 +38,44 @@ activities = {
         "schedule": "Mondays, Wednesdays, Fridays, 2:00 PM - 3:00 PM",
         "max_participants": 30,
         "participants": ["john@mergington.edu", "olivia@mergington.edu"]
+    },
+    "Swimming Team": {
+        "description": "Practice strokes, improve endurance, and compete in meets",
+        "schedule": "Tuesdays and Thursdays, 4:00 PM - 5:30 PM",
+        "max_participants": 20,
+        "participants": ["sarah@mergington.edu", "liam@mergington.edu"]
+    },
+    "Basketball Club": {
+        "description": "Team drills, friendly games, and skill development",
+        "schedule": "Mondays and Wednesdays, 4:00 PM - 5:30 PM",
+        "max_participants": 18,
+        "participants": ["noah@mergington.edu", "ava@mergington.edu"]
+    },
+    "Art Studio": {
+        "description": "Explore painting, drawing, and mixed media techniques",
+        "schedule": "Wednesdays, 3:30 PM - 5:00 PM",
+        "max_participants": 15,
+        "participants": ["mia@mergington.edu", "ethan@mergington.edu"]
+    },
+    "Drama Workshop": {
+        "description": "Acting exercises, scene work, and stagecraft fun",
+        "schedule": "Thursdays, 3:30 PM - 5:00 PM",
+        "max_participants": 16,
+        "participants": ["hannah@mergington.edu", "lucas@mergington.edu"]
+    },
+    "Math Olympiad": {
+        "description": "Solve challenging problems and prepare for math competitions",
+        "schedule": "Fridays, 3:30 PM - 5:00 PM",
+        "max_participants": 14,
+        "participants": ["oliver@mergington.edu", "chloe@mergington.edu"]
+    },
+    "Science Club": {
+        "description": "Conduct experiments and explore science projects together",
+        "schedule": "Tuesdays, 3:30 PM - 5:00 PM",
+        "max_participants": 18,
+        "participants": ["amelia@mergington.edu", "jack@mergington.edu"]
     }
 }
-
 
 @app.get("/")
 def root():
@@ -58,6 +93,10 @@ def signup_for_activity(activity_name: str, email: str):
     # Validate activity exists
     if activity_name not in activities:
         raise HTTPException(status_code=404, detail="Activity not found")
+
+    # Validate student is not already signed up
+    if email in activities[activity_name]["participants"]:
+        raise HTTPException(status_code=400, detail="Student already signed up")
 
     # Get the specific activity
     activity = activities[activity_name]
